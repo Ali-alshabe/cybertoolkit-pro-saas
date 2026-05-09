@@ -1,63 +1,52 @@
 import streamlit as st
 import hashlib
-import re
 from datetime import datetime
 
-# إعدادات الواجهة
+# إعدادات الصفحة
 st.set_page_config(page_title="CyberToolkit Pro", page_icon="🛡️")
 
+# الهوية البصرية والاسم
 st.title("🛡️ Global Cyber Security Toolkit")
-st.write("SaaS Project v1.2 | Developed by Ali Al-Murtadha")
+st.markdown("### SaaS Project v1.2 | Developed by Ali Al-Murtadha")
 
+# التأكد من وجود سجل في الذاكرة
+if 'logs' not in st.session_state:
+    st.session_state.logs = []
 
-# دالة فحص قوة كلمة المرور
-def check_password_strength(password):
-    score = 0
-    if len(password) >= 8: score += 1
-    if re.search("[a-z]", password) and re.search("[A-Z]", password): score += 1
-    if re.search("[0-9]", password): score += 1
-    if re.search("[!@#$%^&*]", password): score += 1
-    return score
+# خانة الإدخال
+password = st.text_input("Enter password to analyze & encrypt:", type="password")
 
-
-# واجهة المستخدم
-user_input = st.text_input("Enter password to analyze & encrypt:", type="password")
-
-if user_input:
-    # 1. تحليل القوة
-    strength_score = check_password_strength(user_input)
-
-    st.subheader("1. Security Analysis")
-    status = ""
-    if strength_score == 4:
-        st.success("💪 Strong Password")
-        status = "Strong"
-    elif strength_score >= 2:
-        st.warning("⚠️ Medium Password")
-        status = "Medium"
+if password:
+    # 1. تحليل القوة (بسيط)
+    st.markdown("### 1. Security Analysis")
+    if len(password) < 8:
+        st.error("🚨 Weak Password (Too short)")
     else:
-        st.error("🚨 Weak Password")
-        status = "Weak"
+        st.success("✅ Strong Password")
 
-    # 2. التشفير
-    st.subheader("2. Encryption (SHA-256)")
-    hashed_result = hashlib.sha256(user_input.encode()).hexdigest()
-    st.code(hashed_result, language='text')
+    # 2. التشفير باستخدام SHA-256
+    st.markdown("### 2. Encryption (SHA-256)")
+    hashed_password = hashlib.sha256(password.encode()).hexdigest()
+    st.code(hashed_password)
 
-    # 3. حفظ السجل (Logging) - الجزء الجديد
-    now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    log_entry = f"[{now}] Status: {status} | Hash: {hashed_result[:10]}...\n"
+    # حفظ العملية في السجل (تعديل: إظهار الكلمة الأصلية)
+    now = datetime.now().strftime("%H:%M:%S")
+    log_entry = f"[{now}] Input: '{password}' | Hash: {hashed_password[:15]}..."
+    
+    # إضافة السجل إذا لم يكن مضافاً مسبقاً لمنع التكرار عند إعادة التحميل
+    if not st.session_state.logs or st.session_state.logs[-1] != log_entry:
+        st.session_state.logs.append(log_entry)
 
-    with open("activity_log.txt", "a") as f:
-        f.write(log_entry)
+# القائمة الجانبية للسجلات
+with st.sidebar:
+    st.title("📑 Activity History")
+    if st.button("Show Recent Logs"):
+        if st.session_state.logs:
+            for log in reversed(st.session_state.logs):
+                st.write(log)
+        else:
+            st.info("No activity recorded yet.")
 
-# عرض السجل في الشريط الجانبي
-st.sidebar.header("📜 Activity History")
-if st.sidebar.button("Show Recent Logs"):
-    try:
-        with open("activity_log.txt", "r") as f:
-            logs = f.readlines()
-            for log in logs[-5:]:  # عرض آخر 5 عمليات فقط
-                st.sidebar.text(log)
-    except FileNotFoundError:
-        st.sidebar.write("No logs yet.")
+# تذييل الصفحة
+st.divider()
+st.caption("Secure Encryption Tool - Academic Purpose 2026")
