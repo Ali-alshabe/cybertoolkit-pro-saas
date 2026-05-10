@@ -16,7 +16,7 @@ try:
     
     st.markdown(f"""
         <h1 style='text-align: center;'>علي المرتضى ياسين</h1>
-        <h3 style='text-align: center; color: #4682B4;'>مهندس أمن سيبراني واعد</h3>
+        <h3 style='text-align: center; color: #4682B4;'>مهندس أمن سيبراني </h3>
         <hr>
     """, unsafe_allow_html=True)
 except:
