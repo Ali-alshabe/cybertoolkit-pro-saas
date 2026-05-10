@@ -24,7 +24,7 @@ except:
     st.markdown("<h1 style='text-align: center;'>علي المرتضى ياسين</h1>", unsafe_allow_html=True)
     st.info("نصيحة: ارفع صورتك باسم 'my_photo.jpg' لتظهر هنا!")
 
-st.title("🛡️ Ali's Advanced URL Scanner")
+st.title("🌐 مختبر علي المرتضى ياسين لفحص الراوبط")
 st.markdown("### Powered by VirusTotal API | v2.0")
 
 # --- بقية كود الفحص ---
