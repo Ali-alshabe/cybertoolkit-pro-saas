@@ -19,7 +19,7 @@ try:
     st.markdown(f"<h1 style='text-align: center; color: white; margin-bottom: 0;'>Ali Al-Murtada</h1>", unsafe_allow_html=True)
     
     # --- الإضافة المطلوبة: المسمى الوظيفي بالإنجليزية وباللون الأحمر ---
-    st.markdown("<p style='text-align: center; color: #FF4B4B; font-size: 22px; font-weight: bold; margin-top: 0; font-family: sans-serif;'>Cybersecurity Engineer</p>", unsafe_allow_html=True)
+    st.markdown("<p style='text-align: center; color: #FF4B4B; font-size: 22px; font-weight: bold; margin-top: 0; font-family: sans-serif;'>Cyber security Engineer</p>", unsafe_allow_html=True)
     
     st.markdown("---")
 except:
