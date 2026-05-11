@@ -20,7 +20,7 @@ except:
     st.markdown("<h1 style='text-align: center;'>علي المرتضى ياسين</h1>", unsafe_allow_html=True)
 
 # --- العبارة التي طلبتها (تمت إعادتها هنا) ---
-st.markdown("<h2 style='text-align: center; color: #4682B4;'>🌐 مختبر علي المرتضى ياسين للأمن السيبراني</h2>", unsafe_allow_html=True)
+st.markdown("<h2 style='text-align: center; color: #4682B4;'>🌐(Lab) Ali Al-Murtada Yassin</h2>", unsafe_allow_html=True)
 st.markdown("<p style='text-align: center; opacity: 0.8;'>Powered by VirusTotal API & Advanced Security Protocols</p>", unsafe_allow_html=True)
 
 # 3. إنشاء التبويبات الثلاثة
