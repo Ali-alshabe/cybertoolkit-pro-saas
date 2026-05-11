@@ -90,9 +90,14 @@ with tab2:
             st.error("المستوى: ضعيف جداً ❌ (يمكن كسرها في ثوانٍ)")
         elif 10 <= length < 14:
             st.warning("المستوى: متوسط ⚠️ (جيدة للاستخدام العادي)")
-        elif length >= 14 and (use_symbols or use_numbers):
-            st.success("المستوى: خارق 💪 (تحتاج لآلاف السنين لكسرها!)")
-            st.balloons() # احتفال بسيط بالنجاح الأمني
+       elif length >= 14 and (use_symbols or use_numbers):
+            st.success("المستوى: خارق 💪")
+            # تصفيق متتالي في الزاوية
+            st.toast("كفووو! 👏")
+            time.sleep(0.5)
+            st.toast("أمن ممتاز! 👏👏")
+            time.sleep(0.5)
+            st.toast("عاشت إيدك يا بطل! 👏👏👏")
         else:
             st.info("المستوى: جيد، لكن زد الرموز لزيادة الأمان.")
 
