@@ -5,25 +5,31 @@ import base64
 import random
 import string
 
-# 1. إعدادات المتصفح
+# 1. إعدادات المتصفح (Title & Icon)
 st.set_page_config(page_title="Ali Cyber Toolkit", page_icon="🛡️", layout="centered")
 
 # 2. الهوية الشخصية (الاسم والصورة)
 try:
     col1, col2, col3 = st.columns([1, 1, 1])
     with col2:
+        # تأكد أن اسم ملف الصورة في GitHub هو my_photo.jpg
         st.image("my_photo.jpg", width=200) 
     
-    st.markdown(f"<h1 style='text-align: center; color: white;'>Ali Al-Murtada</h1>", unsafe_allow_html=True)
+    # الاسم العربي
+    st.markdown(f"<h1 style='text-align: center; color: white; margin-bottom: 0;'>علي المرتضى ياسين</h1>", unsafe_allow_html=True)
+    
+    # --- الإضافة المطلوبة: المسمى الوظيفي بالإنجليزية وباللون الأحمر ---
+    st.markdown("<p style='text-align: center; color: #FF4B4B; font-size: 22px; font-weight: bold; margin-top: 0; font-family: sans-serif;'>Cybersecurity Engineer</p>", unsafe_allow_html=True)
+    
     st.markdown("---")
 except:
-    st.markdown("<h1 style='text-align: center;'>{Ali Al-Murtada}</h1>", unsafe_allow_html=True)
+    st.markdown("<h1 style='text-align: center;'>علي المرتضى ياسين</h1>", unsafe_allow_html=True)
 
-# --- العبارة التي طلبتها (تمت إعادتها هنا) ---
-st.markdown("<h2 style='text-align: center; color: #4682B4;'>🌐(Lab) Ali Al-Murtada Yassin</h2>", unsafe_allow_html=True)
+# 3. عنوان المختبر (Lab Title)
+st.markdown("<h2 style='text-align: center; color: #4682B4;'>🌐 (Lab) Ali Al-Murtada Yassin</h2>", unsafe_allow_html=True)
 st.markdown("<p style='text-align: center; opacity: 0.8;'>Powered by VirusTotal API & Advanced Security Protocols</p>", unsafe_allow_html=True)
 
-# 3. إنشاء التبويبات الثلاثة
+# 4. إنشاء التبويبات الثلاثة (الأدوات)
 tab1, tab2, tab3 = st.tabs(["🔍 فاحص الروابط الذكي", "🔑 مولد كلمات المرور", "🛡️ محلل أمان المواقع"])
 
 # --- التبويب الأول: فحص الروابط ---
@@ -52,13 +58,13 @@ with tab1:
 with tab2:
     st.header("Smart Password Generator")
     length = st.slider("طول كلمة المرور:", 8, 64, 16)
-    if st.button("توليد ✨", key="btn_gen"):
+    if st.button("توليد كلمة مرور ✨", key="btn_gen"):
         chars = string.ascii_letters + string.digits + string.punctuation
         pwd = ''.join(random.choice(chars) for _ in range(length))
         st.code(pwd)
         if length >= 14:
             st.snow()
-            st.toast("كفووو يا بطل! 👏")
+            st.toast("Great job, Engineer! 👏")
 
 # --- التبويب الثالث: محلل أمان المواقع ---
 with tab3:
@@ -74,9 +80,9 @@ with tab3:
                 if target_url.startswith("https"): st.success("🔒 HTTPS: مفعل")
                 if 'Strict-Transport-Security' in h: st.success("🛡️ HSTS: مفعل")
                 else: st.error("❌ HSTS: غير مفعل")
-                st.info(f"نوع السيرفر: {h.get('Server', 'مخفي')}")
+                st.info(f"نوع السيرفر المكتشف: {h.get('Server', 'مخفي')}")
             except: st.error("تعذر الوصول للموقع.")
 
-# 4. التذييل
+# 5. التذييل (Footer)
 st.markdown("---")
-st.caption(f"© 2026 Developed by Ali Al-Murtadha Yassin")
+st.caption(f"© 2026 Developed by Ali Al-Murtadha Yassin | Cybersecurity Student")
