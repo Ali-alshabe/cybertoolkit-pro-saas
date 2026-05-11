@@ -5,25 +5,26 @@ import base64
 import random
 import string
 
-# 1. إعدادات المتصفح
-st.set_page_config(page_title="Ali Cyber Toolkit", page_icon="🛡️", layout="wide") # جعلنا العرض wide ليتناسب مع القائمة الجانبية
+# 1. إعدادات المتصفح - (هنا غيرنا الأيقونة لتصبح درع 🛡️)
+st.set_page_config(
+    page_title="Ali Cyber Toolkit", 
+    page_icon="🛡️", 
+    layout="wide"
+)
 
-# --- إدارة الذاكرة (Session State) لتعقب العمليات ---
+# --- إدارة الذاكرة (Session State) ---
 if 'history' not in st.session_state:
     st.session_state.history = []
 
 def add_to_history(action, detail):
-    """وظيفة لإضافة أي عملية يقوم بها المستخدم إلى السجل"""
     timestamp = time.strftime("%H:%M:%S")
     st.session_state.history.insert(0, f"[{timestamp}] {action}: {detail}")
-    # الاحتفاظ بآخر 10 عمليات فقط
     if len(st.session_state.history) > 10:
         st.session_state.history.pop()
 
-# 2. القائمة الجانبية (Sidebar) - سجل العمليات
+# 2. القائمة الجانبية (Sidebar)
 with st.sidebar:
     st.title("📜 سجل العمليات")
-    st.write("آخر الأنشطة التي قمت بها:")
     if st.session_state.history:
         for item in st.session_state.history:
             st.info(item)
@@ -31,12 +32,11 @@ with st.sidebar:
             st.session_state.history = []
             st.rerun()
     else:
-        st.write("لا توجد عمليات مسجلة بعد.")
-    
+        st.write("لا توجد عمليات مسجلة.")
     st.markdown("---")
-    st.caption("ملاحظة: السجل يتم مسحه عند تحديث الصفحة.")
+    st.caption("© 2026 Ali Al-Murtadha")
 
-# 3. الهوية الشخصية في الصفحة الرئيسية
+# 3. الهوية الشخصية
 col1, col2, col3 = st.columns([1, 2, 1])
 with col2:
     try:
@@ -46,55 +46,73 @@ with col2:
     st.markdown("<p style='text-align: center; color: #FF4B4B; font-size: 22px; font-weight: bold; margin-top: 0;'>Cybersecurity Engineer</p>", unsafe_allow_html=True)
     st.markdown("<h3 style='text-align: center; color: #4682B4;'>🌐 (Lab) Ali Al-Murtada Yassin</h3>", unsafe_allow_html=True)
 
-# 4. التبويبات
-tab1, tab2, tab3, tab4 = st.tabs(["🔍 فاحص الروابط", "🔑 مولد كلمات المرور", "🛡️ محلل الأمان", "🔐 نظام التشفير"])
+# 4. التبويبات (أضفنا تبويب فحص الـ IP)
+tab1, tab2, tab3, tab4, tab5 = st.tabs([
+    "🔍 فاحص الروابط", 
+    "🔑 مولد الكلمات", 
+    "🛡️ محلل الأمان", 
+    "🔐 نظام التشفير",
+    "🌍 فحص الـ IP"
+])
 
-# --- التبويب الأول: فحص الروابط ---
+# --- التبويبات السابقة (تعمل كالمعتاد) ---
 with tab1:
-    st.header("Ali's URL Scanner")
-    url_input = st.text_input("أدخل الرابط للفحص:", key="scan_in")
-    if st.button("بدء الفحص 🚀"):
-        if url_input:
-            add_to_history("فحص رابط", url_input)
-            st.success(f"تم إرسال {url_input} للفحص")
+    st.header("URL Scanner")
+    url_input = st.text_input("أدخل الرابط:", key="u1")
+    if st.button("فحص 🚀"):
+        add_to_history("فحص رابط", url_input)
+        st.success("تم بدء الفحص..")
 
-# --- التبويب الثاني: مولد كلمات المرور ---
 with tab2:
-    st.header("Smart Password Generator")
-    length = st.slider("طول الكلمة:", 8, 64, 16)
+    st.header("Password Gen")
+    length = st.slider("الطول:", 8, 32, 16)
     if st.button("توليد ✨"):
-        pwd = ''.join(random.choice(string.ascii_letters + string.digits + string.punctuation) for _ in range(length))
-        st.code(pwd)
-        add_to_history("توليد كلمة مرور", f"بطول {length}")
-        if length >= 14: st.snow()
+        p = ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(length))
+        st.code(p)
+        add_to_history("توليد كلمة", f"بطول {length}")
 
-# --- التبويب الثالث: محلل أمان المواقع ---
 with tab3:
-    st.header("Website Security Analyzer")
-    target_url = st.text_input("رابط الموقع للتحليل:", key="anal_in")
-    if st.button("تحليل جدار الحماية 🛡️"):
-        if target_url:
-            add_to_history("تحليل موقع", target_url)
-            st.info(f"جاري فحص بروتوكولات {target_url}")
+    st.header("Security Analyzer")
+    site = st.text_input("رابط الموقع:", key="s1")
+    if st.button("تحليل 🛡️"):
+        add_to_history("تحليل موقع", site)
+        st.info("جاري فحص الـ Headers...")
 
-# --- التبويب الرابع: التشفير ---
 with tab4:
-    st.header("Encryption System")
-    mode = st.radio("العملية:", ["تشفير", "فك تشفير"])
-    text_to_process = st.text_area("النص:")
-    if st.button("تنفيذ ⚡"):
-        if text_to_process:
-            if mode == "تشفير":
-                res = base64.b64encode(text_to_process.encode()).decode()
-                st.code(res)
-                add_to_history("تشفير نص", text_to_process[:15] + "...")
-            else:
-                try:
-                    res = base64.b64decode(text_to_process.encode()).decode()
-                    st.info(res)
-                    add_to_history("فك تشفير", "نص Base64")
-                except: st.error("خطأ في الصيغة")
+    st.header("Encryption")
+    text = st.text_area("النص:", key="t1")
+    if st.button("تشفير ⚡"):
+        res = base64.b64encode(text.encode()).decode()
+        st.code(res)
+        add_to_history("تشفير نص", text[:10]+"...")
+
+# --- التبويب الخامس الجديد: فحص الـ IP ---
+with tab5:
+    st.header("IP Geolocation & Security")
+    st.write("أدخل عنوان IP لمعرفة موقعه الجغرافي ومعلومات الشبكة.")
+    ip_input = st.text_input("أدخل عنوان الـ IP (مثال: 8.8.8.8):", placeholder="8.8.8.8")
+    
+    if st.button("كشف المعلومات 🔍"):
+        if ip_input:
+            try:
+                with st.spinner("جاري جلب البيانات..."):
+                    # استخدام API مجاني لجلب معلومات الـ IP
+                    response = requests.get(f"https://ipapi.co/{ip_input}/json/").json()
+                    
+                    if "error" not in response:
+                        add_to_history("فحص IP", ip_input)
+                        c1, c2, c3 = st.columns(3)
+                        c1.metric("الدولة", response.get("country_name"))
+                        c2.metric("المدينة", response.get("city"))
+                        c3.metric("المزود (ISP)", response.get("org"))
+                        
+                        st.map(data={"lat": [response.get("latitude")], "lon": [response.get("longitude")]})
+                        st.success(f"تم تحديد موقع السيرفر بنجاح في {response.get('country_name')}")
+                    else:
+                        st.error("عنوان IP غير صحيح أو غير موجود.")
+            except:
+                st.error("تعذر الاتصال بقاعدة بيانات الـ IP.")
 
 # 5. التذييل
 st.markdown("---")
-st.caption(f"© 2026 Developed by Ali Al-Murtadha Yassin")
+st.caption(f"© 2026 Developed by Ali Al-Murtadha Yassin | Cybersecurity Lab")
