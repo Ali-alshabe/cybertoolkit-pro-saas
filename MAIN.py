@@ -17,7 +17,7 @@ try:
     st.markdown(f"<h1 style='text-align: center; color: white;'>علي المرتضى ياسين</h1>", unsafe_allow_html=True)
     st.markdown("---")
 except:
-    st.markdown("<h1 style='text-align: center;'>علي المرتضى ياسين</h1>", unsafe_allow_html=True)
+    st.markdown("<h1 style='text-align: center;'>{Ali Al-Murtada}</h1>", unsafe_allow_html=True)
 
 # --- العبارة التي طلبتها (تمت إعادتها هنا) ---
 st.markdown("<h2 style='text-align: center; color: #4682B4;'>🌐(Lab) Ali Al-Murtada Yassin</h2>", unsafe_allow_html=True)
