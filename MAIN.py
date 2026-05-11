@@ -14,7 +14,7 @@ try:
     with col2:
         st.image("my_photo.jpg", width=200) 
     
-    st.markdown(f"<h1 style='text-align: center; color: white;'>Ali Al-Murtada}</h1>", unsafe_allow_html=True)
+    st.markdown(f"<h1 style='text-align: center; color: white;'>Ali Al-Murtada</h1>", unsafe_allow_html=True)
     st.markdown("---")
 except:
     st.markdown("<h1 style='text-align: center;'>{Ali Al-Murtada}</h1>", unsafe_allow_html=True)
